@@ -9,7 +9,7 @@ The subject rule for this challenge, Rule 90, is one of the simplest, a simple n
 Here are the rules showing the conversion from one set of cells to another:
 
 |"111"|	"101"|"010"|"000"|"110"|"100"|"011"|"001"|
--------------------------------------------------
+|---|---|---|---|---|---|---|---|---|
 |0	|0	|0	|0	|1	|1	|1	|1|
 
 ##Input Description
