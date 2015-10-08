@@ -14,6 +14,10 @@ var input_3 = " * \n"+
               "***\n"+
               "***\n";
 
+/******************************************
+**************   Functions   **************
+*******************************************/
+
 function input_to_arr(input) {
   return input.split("\n").map(function splitting(item) {
     return item.split('');
@@ -37,71 +41,34 @@ function last_asterix(input) {
 }
 
 
-function draw_floor(input, begin, last) {
+function draw_outline(input, floor, begin, last) {
   var ascii = "";
   var output = [];
   // console.log(input);
   if (begin != last) {
     for (var i = 0; i < input.length; i++) {
       if (input[i]=="*") {
-        switch (i) {
-          case begin:
-            ascii = "+---";
-            break;
-          case last:
-            ascii = "---+";
-            break;
-          default:
-            ascii = "-----";
-        }
+          if (i === 0 || input[i-1] == " ") {
+            ascii = floor ? "+---" : "|   ";
+          }else if (i === input.length - 1 || input[i+1] == " ") {
+            ascii = floor ? "---+" : "   |";
+          }else {
+            ascii = floor ? "-----" : "     ";
+          }
       }else {
         ascii = "    ";
       }
       output[i] = ascii;
     }
   } else {
-    for (var i = 0; i < input.length; i++) {
-      if (i != begin) {
-        output[i] = "    ";
+    for (var j = 0; j < input.length; j++) {
+      if (j != begin) {
+        output[j] = "    ";
       }else {
-        output[begin] = "+---+";
+        output[begin] = floor ? "+---+" : "|   |";
       }
     }
 
-  }
- return output;
-}
-
-function draw_walls(input, begin, last) {
-  var ascii = "";
-  var output = [];
-  // console.log(input);
-  if (begin != last) {
-    for (var i = 0; i < input.length; i++) {
-      if (input[i]=="*") {
-        switch (i) {
-          case begin:
-            ascii = "|   ";
-            break;
-          case last:
-            ascii = "   |";
-            break;
-          default:
-            ascii = "     ";
-        }
-      } else {
-        ascii = "    ";
-      }
-      output[i] = ascii;
-    }
-  } else {
-    for (var i = 0; i < input.length; i++) {
-      if (i != begin) {
-        output[i] = "    ";
-      }else {
-        output[begin] = "|   |";
-      }
-    }
   }
  return output;
 }
@@ -111,9 +78,20 @@ function print_house(input) {
   for (var i = 0; i < house.length; i++) {
     begin = first_asterix(house[i]);
     last = last_asterix(house[i]);
-    console.log(draw_floor(house[i], begin, last).join(''));
-    console.log(draw_walls(house[i], begin, last).join(''));
-    console.log(draw_floor(house[i], begin, last).join(''));
+    switch (i) {
+      case 0:
+      console.log(draw_outline(house[i], true,  begin, last).join(''));
+      console.log(draw_outline(house[i], false,  begin, last).join(''));
+        break;
+      case house.length - 1:
+      console.log(draw_outline(house[i], true,  begin, last).join(''));
+      console.log(draw_outline(house[i], false,  begin, last).join(''));
+      console.log(draw_outline(house[i], true,  begin, last).join(''));
+        break;
+      default:
+      console.log(draw_outline(house[i], true,  begin, last).join(''));
+      console.log(draw_outline(house[i], false,  begin, last).join(''));
+    }
   }
 }
 
